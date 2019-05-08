@@ -1,8 +1,8 @@
 var user = {
-    insert:'INSERT INTO user(user_id, user_age, user_city) VALUES(0,?,?)',
-    update:'update user set user_age=?, user_city=? where user_id=?',
-    delete: 'delete from user where user_id=?',
-    queryById: 'select * from user where user_id=?',
+    insert:'INSERT INTO user(id, name, sex, account, pass) VALUES(0,?,?,?,?)',
+    update:'update user set name=?, sex=?, account=?, pass=?, where id=?',
+    delete: 'delete from user where id=?',
+    queryById: 'select * from user where id=?',
     queryAll: 'select * from user'
 };
 module.exports = user;

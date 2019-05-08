@@ -25,7 +25,7 @@ module.exports = {
 
             // 建立连接，向表中插入值
             // 'INSERT INTO user(id, name, age) VALUES(0,?,?)',
-            connection.query($sql.insert, [param.age, param.city], function(err, result) {
+            connection.query($sql.insert, [param.name, param.sex, param.account, param.pass], function(err, result) {
                 if(result) {
                     result = {
                         code: 200,
@@ -59,17 +59,18 @@ module.exports = {
             });
         });
     },
+    /*
     update: function (req, res, next) {
         // update by id
         // 为了简单，要求同时传name和age两个参数
         var param = req.body;
-        if(param.age == null || param.city == null || param.id == null) {
+        if(param.id==null || param.name == null || param.sex == null || param.account == null || param.pass==null) {
             jsonWrite(res, undefined);
             return;
         }
 
         pool.getConnection(function(err, connection) {
-            connection.query($sql.update, [param.age, param.city, +param.id], function(err, result) {
+            connection.query($sql.update, [param.name, param.sex, param.account, param.pass +param.id], function(err, result) {
                 // 使用页面进行跳转提示
                 if(result.affectedRows > 0) {
                     res.render('suc', {
@@ -86,6 +87,7 @@ module.exports = {
         });
 
     },
+     */
     queryById: function (req, res, next) {
         var id = +req.query.id; // 为了拼凑正确的sql语句，这里要转下整数
         pool.getConnection(function(err, connection) {
