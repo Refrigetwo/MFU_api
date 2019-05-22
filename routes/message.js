@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
     res.send('respond with a resource');
 });
 
-router.get('/addMessage', function(req, res, next) {
+router.get('/add', function(req, res, next) {
     messageDao.add(req, res, next);
 });
 /*
