@@ -1,6 +1,7 @@
 var mysql = require('mysql');
 var $conf = require('../conf/db');
 var $sql = require('./userSqlMapping');
+var md5 = require("crypto-js/md5");
 
 // 使用连接池，提升性能
 var pool = mysql.createPool( $conf.mysql );
@@ -11,6 +12,16 @@ var jsonWrite = function (res, ret) {
         res.json({
             code:'1',
             msg: '操作失败'
+        });
+    } else {
+        res.json(ret);
+    }
+};
+var jsonWritePass = function (res, ret) {
+    if( ret === 'undefined') {
+        res.json({
+            code:'1',
+            msg: '登陆失败'
         });
     } else {
         res.json(ret);
@@ -59,40 +70,20 @@ module.exports = {
             });
         });
     },
-    /*
-    update: function (req, res, next) {
-        // update by id
-        // 为了简单，要求同时传name和age两个参数
-        var param = req.body;
-        if(param.id==null || param.name == null || param.sex == null || param.account == null || param.pass==null) {
-            jsonWrite(res, undefined);
-            return;
-        }
-
-        pool.getConnection(function(err, connection) {
-            connection.query($sql.update, [param.name, param.sex, param.account, param.pass +param.id], function(err, result) {
-                // 使用页面进行跳转提示
-                if(result.affectedRows > 0) {
-                    res.render('suc', {
-                        result: result
-                    }); // 第二个参数可以直接在jade中使用
-                } else {
-                    res.render('fail',  {
-                        result: result
-                    });
-                }
-
-                connection.release();
-            });
-        });
-
-    },
-     */
     queryById: function (req, res, next) {
-        var id = +req.query.id; // 为了拼凑正确的sql语句，这里要转下整数
+        var account=req.query.account; // 为了拼凑正确的sql语句，这里要转下整数
         pool.getConnection(function(err, connection) {
-            connection.query($sql.queryById, id, function(err, result) {
-                jsonWrite(res, result);
+            connection.query($sql.queryById, account, function(err, result) {
+                console.log(result[0].pass);
+                var a=md5(result[0].pass).toString();
+                console.log(a);
+                jsonWrite(res, {
+                    name:result[0].name,
+                    pass:a,
+                    sex:result[0].sex,
+                    id:result[0].id,
+                    account:result[0].account
+                });
                 connection.release();
 
             });
