@@ -8,6 +8,7 @@ var usersRouter = require('./routes/users');
 var messageRouter = require('./routes/message');
 var docRouter = require('./routes/doc');
 var newsRouter = require('./routes/news');
+var schRouter = require('./routes/sch');
 
 var app = express();
 
@@ -22,5 +23,6 @@ app.use('/users', usersRouter);
 app.use('/message', messageRouter);
 app.use('/doc', docRouter);
 app.use('/news', newsRouter);
+app.use('/sch', schRouter);
 
 module.exports = app;
